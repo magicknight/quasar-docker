@@ -11,7 +11,7 @@ Next, start a shell console and enter
 
 `docker-compose up -d`
 
-This will get the docker container `app_app_1` started and in detached mode. 
+This will get the docker container `clientdev_app_1` started and in detached mode. 
 
 When the container is building, it will take several minutes. Once the container is started, you should be back to the cursor in the shell.  
 
