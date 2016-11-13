@@ -1,12 +1,6 @@
-FROM  mhart/alpine-node:latest
+FROM  quasarframework/client-dev:latest
 
 MAINTAINER Scott Molinari <scott.molinari@adduco.de>
-
-ENV PATH /usr/lib/node_modules:$PATH
-
-RUN apk add --no-cache bash &&\
-    cd / &&\
-    npm install -g quasar-cli
 
 WORKDIR /opt/app
 
