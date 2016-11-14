@@ -1,4 +1,4 @@
-FROM  mhart/alpine-node:latest
+FROM  quasarframework/quasar-dev:latest
 
 MAINTAINER Scott Molinari <scott.molinari@adduco.de>
 
