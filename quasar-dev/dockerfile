@@ -1,0 +1,15 @@
+FROM  quasarframework/client-dev:latest
+
+MAINTAINER Scott Molinari <scott.molinari@adduco.de>
+
+WORKDIR /opt/app
+
+COPY package.json /opt/app/package.json
+
+RUN npm install
+
+COPY . /opt/app
+
+EXPOSE 8080
+
+CMD /bin/sh
