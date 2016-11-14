@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  app:
+  quasar-dev:
     build: .
-    image: quasarframework/client-dev
+    image: quasarframework/quasar-dev
     command: sh
     volumes:
       - .:/opt/app
