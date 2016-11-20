@@ -12,6 +12,9 @@
 # IMPORTANT!!!
 # <user> and <password> are the credentials for Docker Hub.
 
+# Input
+USERNAME=$2
+PASSWORD=$3
 
 # Output colors
 NORMAL='\033[0;39m'
@@ -28,19 +31,28 @@ error() {
   echo "$RED >>> ERROR - $1$NORMAL"
 }
 
+if [ "$3" == "" ]
+then
+  error "Sorry, you forgot your Docker Hub username or password. Please try again." && exit 100
+elif [ "$1" != "build" ]
+then
+  error "Use the command <build> only. Thank you!" && exit 101
+fi
+
 clone-quasar-docker() {
+  echo "Rebuilding the quasarframework/client-dev container...."
   git clone git@github.com:/quasarframework/quasar-docker.git
   cd quasar-docker/container-dev
 
   [ $? != 0 ] && \
-    error "Quasar-docker cloning failed !" && exit 100
+    error "Quasar-docker cloning failed !" && exit 102
 }
 
 run-container() {
   docker-compose up -d
 
   [ $? != 0 ] && \
-    error "Building of the container failed !" && exit 101
+    error "Building of the container failed !" && exit 103
 
 }
 
@@ -48,7 +60,7 @@ copy-from-container() {
    docker cp containerdev_container-dev_run_1:/tmp/app .
 
    [ $? != 0 ] && \
-     error "Copying of the files from the contaier failed" && exit 102
+     error "Copying of the files from the contaier failed" && exit 104
 }
 
 move-files() {
@@ -61,7 +73,7 @@ move-files() {
   rm -r app
 
   [ $? != 0 ] && \
-    error "Copying of the files failed!" && exit 103
+    error "Copying of the files failed!" && exit 106
 }
 
 login-to-docker() {
@@ -94,16 +106,16 @@ clean-up() {
 
   [ $? != 0 ] && \
     error "The clean-up failed!" && exit 107
+
+  echo "The rebulding of the container was successful!"
 }
 
 # the main command
 build() {
-  log("Rebuilding the quasarframework/client-dev container....")
   run-container
   login-to-docker
   push-container
   clean-up
-  log("The rebulding of the container was successful!")
 }
 
 $*

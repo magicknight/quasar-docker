@@ -25,7 +25,7 @@ Once the container is running, we'll need to get the initial files needed to wor
 
 `docker cp clientdev_app_1:/tmp/app .`
 
-You can now enter the `/app` directory. This will be your starting point to develop with Quasar
+You can now enter the `/app` directory. This will be your starting point to develop with Quasar.
 
 ## docker-compose exec
 
@@ -33,17 +33,15 @@ To get into the container to run the [Quasar CLI commands](http://quasar-framewo
 
 `$ docker-compose exec app sh`
 
-You should be in the root directory. You should now 
+You should be in the root directory the `/opt/app`directory. This directory is also a shared volume with the `/app` directory on your host computer, so any changes to the files on the host are also reflected in the container. 
 
-`cd /opt/app` 
+##  npm install 
 
-into the working directory. This directory is also a shared volume with the `/app` directory on your host computer, so any changes to the files on the host are also reflected in the container. 
-
-**Important**: As a last step, you will need to run 
+**Important**: As a last step, before you can start developing with Quasar, you will need to run 
 
 `npm install`
 
-so all the dependencies are installed too. If you wish to add any additional dependencies, please do so directly in the `package.json` file.
+so all the dependencies are installed too. If you wish to add any additional dependencies, please do so directly in the `package.json` file before you run the install.
 
 At this point, you can use all the [Quasar CLI commands](http://quasar-framework.org/guide/quasar-cli.html). 
 
