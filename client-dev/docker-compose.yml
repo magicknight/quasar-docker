@@ -6,7 +6,7 @@ services:
     image: quasarframework/client-dev
     command: sh
     volumes:
-      - .:/opt/app
+      - ./app:/opt/app
       - /opt/app/node_modules
     ports:
       - 8080:8080
