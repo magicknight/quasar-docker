@@ -7,11 +7,10 @@ ENV PATH /usr/lib/node_modules:$PATH
 RUN apk add --no-cache bash &&\
     cd / &&\
     npm install -g quasar-cli &&\
-    quasar init /opt/app
-
-WORKDIR /opt/app
-
-RUN npm install
+    quasar init /tmp/app &&\
+    cd /tmp/app &&\
+    npm install &&\
+    rm -r /tmp/app/node_modules
 
 EXPOSE 8080
 

@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  container-dev:
+    build: .
+    image: quasarframework/client-dev
+    command: sh
+    volumes:
+      - ./app:/opt/app
+      - /opt/app/node_modules
+    ports:
+      - 8080:8080
+    tty: true
