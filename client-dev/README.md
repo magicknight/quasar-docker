@@ -2,10 +2,10 @@
 
 To get started developing an application with the Quasar Framework using Docker, you should have copied these files into your project's directory.
 
-##package.json
+## package.json
 If you want to add dependencies to your application's dev environment, please modify the `package.json` file accordingly. 
 
-##docker-compose up
+## docker-compose up
 
 Next, start a shell console and enter
 
@@ -13,15 +13,37 @@ Next, start a shell console and enter
 
 This will get the docker container `clientdev_app_1` started and in detached mode. 
 
-When the container is building, it will take several minutes. Once the container is started, you should be back to the cursor in the shell.  
+When the container is building, it will take several minutes. Once the container is started, you should be back to the cursor in the shell.
 
-##docker-compose exec
+To shut down the container, naturally the command is 
 
-To get into the container to run the Quasar CLI commands necessary to work with Quasar, run the following command.
+`docker-composer down`
+
+## docker cp - copy files to the host
+
+Once the container is running, we'll need to get the initial files needed to work on Quasar. They have already been stored in the image and are on the new container. To get the files, carry out the following command.
+
+`docker cp clientdev_app_1:/tmp/app .`
+
+You can now enter the `/app` directory. This will be your starting point to develop with Quasar
+
+## docker-compose exec
+
+To get into the container to run the [Quasar CLI commands](http://quasar-framework.org/guide/quasar-cli.html) necessary to work with Quasar, or to start the server, run the following command.
 
 `$ docker-compose exec app sh`
 
-You should be in the `/opt/app` directory, which is your working directory in the container. It is also a shared volume with the current directory on your host computer, so any changes to the files are also reflected in the container's working directory. 
+You should be in the root directory. You should now 
+
+`cd /opt/app` 
+
+into the working directory. This directory is also a shared volume with the `/app` directory on your host computer, so any changes to the files on the host are also reflected in the container. 
+
+**Important**: As a last step, you will need to run 
+
+`npm install`
+
+so all the dependencies are installed too. If you wish to add any additional dependencies, please do so directly in the `package.json` file.
 
 At this point, you can use all the [Quasar CLI commands](http://quasar-framework.org/guide/quasar-cli.html). 
 
@@ -39,7 +61,7 @@ You'll see the `hello.vue` component under the `/src/components` directory.
 
 ## docker-compose build - adding new dependencies
 
-If you need to add new npm packages, you will need to alter your `packages.json` file directly and run the command
+As mentioned earlier, if you need to add new npm packages, you will need to alter your `packages.json` file directly and run the command
 
 `$ docker-compose build`
 

@@ -2,7 +2,7 @@
 
 # To use, run as follows:
 #
-#./do.sh rebuild <user> <password> <version>
+#./do.sh build <user> <password>
 #
 # This will allow the client-dev container to be rebuilt with the newest
 # package.json and other initial files so that the docker container is
@@ -11,14 +11,7 @@
 #
 # IMPORTANT!!!
 # <user> and <password> are the credentials for Docker Hub.
-# This shell script requires you to have set up your github access with ssh
-# access and have write permissions in the quasarframework/docker repo.
 
-
-# Input variables
-USERNAME=$2
-PASSWORD=$3
-VERSION=$4
 
 # Output colors
 NORMAL='\033[0;39m'
@@ -36,7 +29,7 @@ error() {
 }
 
 clone-quasar-docker() {
-  git clone https://github.com/quasarframework/quasar-docker.git
+  git clone git@github.com:/quasarframework/quasar-docker.git
   cd quasar-docker/container-dev
 
   [ $? != 0 ] && \
@@ -44,7 +37,7 @@ clone-quasar-docker() {
 }
 
 run-container() {
-  docker-compose run -d container-dev
+  docker-compose up -d
 
   [ $? != 0 ] && \
     error "Building of the container failed !" && exit 101
@@ -55,7 +48,7 @@ copy-from-container() {
    docker cp containerdev_container-dev_run_1:/tmp/app .
 
    [ $? != 0 ] && \
-     error "Copying of the files filed" && exit 102
+     error "Copying of the files from the contaier failed" && exit 102
 }
 
 move-files() {
@@ -65,16 +58,17 @@ move-files() {
   rm -r ../client-dev/*
   mv app/.[!.]* ../client-dev
   mv app/* ../client-dev
+  rm -r app
 
   [ $? != 0 ] && \
-    error "Copying of the files failed!" && exit 101
+    error "Copying of the files failed!" && exit 103
 }
 
 login-to-docker() {
   docker login -u $USERNAME -p $PASSWORD
 
   [ $? != 0 ] && \
-    error "Logging in to Docker Hub failed" && exit 101
+    error "Logging in to Docker Hub failed" && exit 104
 }
 
 push-container() {
@@ -84,32 +78,31 @@ push-container() {
     error "The container push to Docker Hub failed !" && exit 101
 }
 
-push-files() {
+git-push-files() {
   cd ..
   git add .
   git commit -m 'updated client-dev to newest version'
   git push origin master
 
   [ $? != 0 ] && \
-    error "The git push to Github failed !" && exit 101
+    error "The git push to Github failed !" && exit 106
 }
 
-do-cleanup() {
+clean-up() {
+  docker-compose down
+  docker rmi quasarframework/client-dev
 
   [ $? != 0 ] && \
-    error "The clean up failed !" && exit 101
+    error "The clean-up failed!" && exit 107
 }
 
 # the main command
 build() {
   log("Rebuilding the quasarframework/client-dev container....")
-  clone-quasar-docker
   run-container
-  copy-from-container
-  move-files
-  #login-to-docker
-  #push-container
-  #do-cleanup
+  login-to-docker
+  push-container
+  clean-up
   log("The rebulding of the container was successful!")
 }
 

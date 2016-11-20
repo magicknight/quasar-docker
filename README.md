@@ -8,7 +8,7 @@ To work with the `quasar-dev` package, git clone this repo to a temporary direct
 ### Directories
 
 1. [client-dev](https://github.com/quasarframework/quasar-docker/tree/master/client-dev) - this directory holds files for developing a Quasar app via Docker. 
-2. [container-dev](https://github.com/quasarframework/quasar-docker/tree/master/quasar-dev) - this directory holds the dockerfile, which will set up the container creating environment and is intended only for Quasar core team developers.(WIP - coming soon!!!)
+2. [container-dev](https://github.com/quasarframework/quasar-docker/tree/master/quasar-dev) - this directory holds the files, which will set up the client-dev container creating environment and is intended only for Quasar core team developers.
 
 ### Further Information
 
