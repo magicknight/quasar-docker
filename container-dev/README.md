@@ -11,7 +11,7 @@ In order to build the client-dev container and files, simple carry out the follo
 
 Please make sure of the following!
 
-1. There are no prebuilt quasarframework/client-dev containers available.
+1. There are no prebuilt quasarframework/client-dev images available.
 2. Make sure no containers are already running and using port 8080. 
 
 Running the script will allow the client-dev container to be rebuilt with the newest package.json and other initial files so that the docker container and image is up-to-date with the newest dev branch of Quasar CLI and its needed dependencies.
