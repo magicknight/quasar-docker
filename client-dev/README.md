@@ -1,13 +1,10 @@
 # quasar-docker client-dev
 
-To get started developing an application with the Quasar Framework using Docker, you should have copied these files into your project's directory.
-
-## package.json
-If you want to add dependencies to your application's dev environment at this point, please modify the `package.json` file accordingly. 
+Welcome to the Quasar client-dev container building setup. Follow the directions below, and you be running with a Docker container to develop a docker app in minutes. 
 
 ## docker-compose up
 
-Next, start a shell console and be sure to be in this directory and enter
+If you have cloned this repo, you should be in the `/client-dev` directory. Start a shell console in this directory and enter
 
 `$ docker-compose up -d`
 
@@ -17,13 +14,13 @@ When the container is building, it will take several minutes. Once the container
 
 To shut down the container, naturally the command is 
 
-`docker-composer down`
+`$ docker-composer down`
 
 ## docker cp - copy files to the host
 
 Once the container is running (or built), we'll need to get the initial files needed to work on Quasar from the container and onto the host. They have already been stored in the image and are on the new container. To get the files, carry out the following Docker "copy" command.
 
-`docker cp clientdev_app_1:/tmp/app .`
+`$ docker cp clientdev_app_1:/tmp/app .`
 
 You can now enter the `/app` directory. 
 
@@ -41,7 +38,7 @@ You should be in the `/opt/app` directory at this point. This directory is also 
 
 **Important**: As a last step, before you can start developing with Quasar, you will need to run 
 
-`npm install`
+`/opt/app # npm install`
 
 so all the dependencies are installed too. If you wish to add any additional dependencies, please do so directly in the `package.json` file before you run the install.
 
@@ -49,13 +46,13 @@ At this point, you can use all the [Quasar CLI commands](http://quasar-framework
 
 For instance, if you'd like to start developing, you can enter
 
-`$ quasar dev mat`
+`/opt/app # quasar dev mat`
 
 You should then be able to go to your browser and run `http://docker.local:8080` and see the Quasar (move your mouse) welcome page. (or use the IP docker offers with 
 
 Or, if you'd like you can add a component with 
 
-`$ quaser new component hello`
+`/opt/app # quaser new component hello`
 
 You'll see the `hello.vue` component under the `/src/components` directory. 
 
