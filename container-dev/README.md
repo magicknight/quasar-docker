@@ -9,14 +9,13 @@ In order to build the client-dev container and files, simple carry out the follo
 
 `./do.sh build <user> <password>`
 
-Please make sure of the following!
+The script will make sure of the following, before it will start.
 
-1. There are no prebuilt quasarframework/client-dev images available.
-2. Make sure no containers are already running and using port 8080. 
+1. There are no prebuilt quasarframework/client-dev images available. If there are, you'll have to delete them. 
+2. There are no processes (containers) are already running and using any of the ports needed to run the container. If a port is taken, you'll have to stop the process. 
 
-Running the script will allow the client-dev container to be rebuilt with the newest package.json and other initial files so that the docker container and image is up-to-date with the newest dev branch of Quasar CLI and its needed dependencies.
+Running this script will allow the client-dev container to be rebuilt with the newest package.json and other initial files so that the docker container and image is up-to-date with the newest dev branch of Quasar CLI and its needed dependencies.
 
-IMPORTANT!!!
-<user> and <password> are the credentials for Docker Hub. 
+**IMPORTANT!!!** - The additional inputs `<user>` and `<password>` are the credentials for Docker Hub. 
 
 You'll need to keep this file handy on your local computer and run it, when an update is necessary.

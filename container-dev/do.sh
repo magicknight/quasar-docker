@@ -21,6 +21,11 @@ NORMAL='\033[0;39m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 
+# Check open ports
+NS=`netstat -an | grep -a 0.0.0.0:8080`
+
+# Check for presence of image
+IMAGE=`docker images -q quasarframework/client-dev`
 
 log() {
   echo "$BLUE > $1 $NORMAL"
@@ -37,6 +42,16 @@ then
 elif [ "$1" != "build" ]
 then
   error "Use the command <build> only. Thank you!" && exit 101
+fi
+
+if [ "$NS" != "" ]
+then
+  error "Sorry, you must already be running something on Port 8080. Please stop that process and try again." && exit 100
+fi
+
+if [ "$IMAGE" != "" ]
+then
+  error "Sorry, you must remove the quasarframework/client-dev image with ID(s) $IMAGE, before building. Please delete the image(s) and try again." && exit 100
 fi
 
 clone-quasar-docker() {
@@ -114,7 +129,7 @@ clean-up() {
 build() {
   run-container
   login-to-docker
-  push-container
+  #push-container
   clean-up
 }
 
