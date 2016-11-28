@@ -2,12 +2,14 @@
 
 # To use, run as follows:
 #
-#./do.sh build <user> <password>
+#./do.sh build <user> <password> <version|optional>
 #
 # This will allow the client-dev container to be rebuilt with the newest
 # package.json and other initial files so that the docker container is
 # up-to-date with the newest dev branch of Quasar CLI and its needed
 # dependencies.
+#
+# Adding a <version> is optional. It should match the current version of Quasar Framework.
 #
 # IMPORTANT!!!
 # <user> and <password> are the credentials for Docker Hub.
@@ -15,6 +17,7 @@
 # Input
 USERNAME=$2
 PASSWORD=$3
+VERSION=$4
 
 # Output colors
 NORMAL='\033[0;39m'
@@ -91,18 +94,30 @@ move-files() {
     error "Copying of the files failed!" && exit 106
 }
 
+tag-image() {
+  if [ "$VERSION" != "" ]
+  then
+    # Check for presence of image
+    IMAGE=`docker images -q quasarframework/client-dev`
+    docker tag $IMAGE quasarframework/client-dev:$VERSION
+
+    [ $? != 0 ] && \
+      error "Tagging of the container failed !" && exit 107
+  fi
+}
+
 login-to-docker() {
   docker login -u $USERNAME -p $PASSWORD
 
   [ $? != 0 ] && \
-    error "Logging in to Docker Hub failed" && exit 104
+    error "Logging in to Docker Hub failed" && exit 108
 }
 
 push-container() {
   docker push quasarframework/client-dev
 
   [ $? != 0 ] && \
-    error "The container push to Docker Hub failed !" && exit 101
+    error "The container push to Docker Hub failed !" && exit 109
 }
 
 git-push-files() {
@@ -112,7 +127,7 @@ git-push-files() {
   git push origin master
 
   [ $? != 0 ] && \
-    error "The git push to Github failed !" && exit 106
+    error "The git push to Github failed !" && exit 110
 }
 
 clean-up() {
@@ -120,7 +135,7 @@ clean-up() {
   docker rmi quasarframework/client-dev
 
   [ $? != 0 ] && \
-    error "The clean-up failed!" && exit 107
+    error "The clean-up failed!" && exit 111
 
   echo "The rebulding of the container was successful!"
 }
@@ -128,8 +143,9 @@ clean-up() {
 # the main command
 build() {
   run-container
+  tag-image
   login-to-docker
-  #push-container
+  push-container
   clean-up
 }
 
